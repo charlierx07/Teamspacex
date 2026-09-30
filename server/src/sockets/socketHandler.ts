@@ -20,9 +20,14 @@ interface ActivePresence {
 const presenceMap = new Map<string, ActivePresence>();
 
 export const initSocket = (httpServer: HttpServer): SocketIOServer => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const allowedOrigins = isProduction
+    ? [CLIENT_URL]
+    : [CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'];
+
   io = new SocketIOServer(httpServer, {
     cors: {
-      origin: [CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+      origin: allowedOrigins.filter(Boolean),
       methods: ['GET', 'POST', 'PATCH', 'DELETE'],
       credentials: true
     }
