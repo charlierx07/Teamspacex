@@ -84,3 +84,5 @@ coverage/
 .turbo/
 .vercel/
 .railway/
+
+SYNC_AUDIT_REPORT.md
